@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { UserInterface } from '../../../../interfaces';
+import { UserInterface, UsersInterface } from '../../../../interfaces';
 import { ApiService } from '../../../core/services';
-  //  import { PaginationApiService } from '../../../core/services';
 
 @Component({
   selector: 'app-users-list',
@@ -15,7 +14,7 @@ import { ApiService } from '../../../core/services';
 export class UsersListComponent implements OnInit {
 
   displayedColumns = ['first_name', 'last_name', 'email'];
-  userList: any[] = [];
+  userList: UserInterface[] = [];
   pagesCount: number;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -23,18 +22,13 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.data.pipe(
-      map(data => data.users)
-    )
-      .subscribe((users: UserInterface[]) => {
-        this.userList = users;
-      });
-
-    this.activatedRoute.data.pipe(
-      map(data => data.paginationInfo)
-    )
-      .subscribe(paginationInfo => {
-        this.pagesCount = paginationInfo.total;
+    this.activatedRoute.data
+      .pipe(map((data) => data.users))
+      .subscribe((users: UsersInterface) => {
+        this.userList = users.data;
+        this.pagesCount = users.total;
+      }, (err) => {
+        console.error(err);
       });
   }
 

@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+<div *ngIf="!loading; else loader">
+  <router-outlet ></router-outlet>
+</div>
+
+<ng-template #loader>
+  <div mat-progress-spinner mode="indeterminate" color="primary" value="50"></div>
+</ng-template>

@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiService, PaginationApiService } from './services';
+import { ApiService } from './services';
 
 @NgModule({
   imports: [
@@ -13,8 +13,7 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        ApiService,
-        PaginationApiService
+        ApiService
       ]
     };
   }

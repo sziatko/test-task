@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInterface } from '../../../../interfaces';
 import { ApiService } from '../../../core/services';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -17,10 +18,11 @@ export class UserComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    const userId: number = this.activatedRoute.snapshot.params['id'];
-    this.apiService.fetchUserById(userId).subscribe((user: UserInterface) => {
-      this.user = user;
-    });
+    this.activatedRoute.data
+      .pipe(map((data) => data.user))
+      .subscribe((user: UserInterface) => {
+        this.user = user;
+      });
   }
 
   back(): void {
